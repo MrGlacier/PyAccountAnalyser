@@ -10,9 +10,12 @@ import os
 # A Pure-Python library built as a PDF toolkit
 import PyPDF2
 
+import modules
+
 class PDFReader:
     pdfDirectory = None
     pdfFilesInDirectory = []
+    pageContent = []
 
     def __init__(self, args):
         if os.path.isdir(args.directory):
@@ -37,7 +40,13 @@ class PDFReader:
             page = read_pdf.getPage(page_number)
             page_content += page.extractText()
         
-        print(page_content.encode('utf-8'))
+        oneEntry = self.extractEntrys(page_content.encode('utf-8'))
+        print(oneEntry)
+        accountEntry = modules.AccountEntry.fromList(oneEntry)
+        accountEntry.get
+
+    def extractEntrys(self, pageContent):
+        return ["Lastschrift", "21.02", "-21,99", "Theo Tester", "DE77630901000131234562", "Test Abbuchung"]
 
     def getPDFList(self):
         return self.pdfFilesInDirectory
